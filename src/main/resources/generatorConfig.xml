@@ -60,9 +60,9 @@
         </javaClientGenerator>
 
         <!-- 指定数据库表 -->
-        <!--<table schema="loandev" tableName="order_original" domainObjectName="OrderOriginal">-->
-            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-        <!--</table>-->
+        <table schema="test" tableName="penaltyoverdue_2016" domainObjectName="enaltyoOverdue2016">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
 
     </context>
 
