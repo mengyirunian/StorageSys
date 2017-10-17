@@ -7,7 +7,6 @@ import org.springframework.context.annotation.*;
  */
 @Configuration
 @PropertySource(value = "classpath:application.properties")
-@Import({StorageDataConfig.class})
 public class RootConfig {
 
 
