@@ -9,7 +9,7 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 public class WebApplicationStartup extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     /**
-     *  应用上下文
+     *  定义拦截器 ContextLoaderListener 应用上下文中的 beans
      */
     @Override
     protected Class<?>[] getRootConfigClasses() {
@@ -17,7 +17,7 @@ public class WebApplicationStartup extends AbstractAnnotationConfigDispatcherSer
     }
 
     /**
-     *  Web上下文
+     *  定义 DispatcherServlet 应用上下文中的 beans
      */
     @Override
     protected Class<?>[] getServletConfigClasses() {

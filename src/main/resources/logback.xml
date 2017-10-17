@@ -30,17 +30,10 @@
     <logger name="org.springframework.web" level="DEBUG" />
 
     <!-- 日志输出级别 -->
-    <root level="INFO">
-        <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
-    </root>
-
+    <!-- TRACE < DEBUG < INFO < WARN < ERROR -->
+    <!-- 大于DEBUG 都会输出在STUDOU 和 FILE -->
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="FILE" />
-    </root>
-
-    <root level="ERROR">
         <appender-ref ref="FILE" />
     </root>
 
