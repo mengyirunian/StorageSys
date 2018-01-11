@@ -7,9 +7,11 @@ import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
@@ -21,6 +23,7 @@ import java.util.Properties;
  */
 @EnableTransactionManagement
 @Configuration
+@MapperScan(basePackages = "com.mengyirunian.mapper", sqlSessionFactoryRef = "storageSysSqlSessionFactory")
 public class StorageDataConfig {
 
     @Value("${storage.data.username}")
@@ -47,11 +50,14 @@ public class StorageDataConfig {
         return new DataSourceTransactionManager(dataSource());
     }
 
-    @Bean
+    @Bean(name = "storageSysSqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory() throws Exception {
         SqlSessionFactoryBean sessionFactory = new SqlSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
-        // 插件
+
+        String mapperLocations = "classpath*:sqlMapper/storageSys/*Mapper.xml";
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        sessionFactory.setMapperLocations(resolver.getResources(mapperLocations));
         sessionFactory.setPlugins(new Interceptor[] { pageHelper() });
         sessionFactory.setTypeHandlers(typeHandler());
         return sessionFactory.getObject();
