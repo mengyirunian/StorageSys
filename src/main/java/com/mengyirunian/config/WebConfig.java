@@ -1,5 +1,7 @@
 package com.mengyirunian.config;
 
+import com.mengyirunian.filter.RequestLogInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -9,10 +11,7 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
-import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
@@ -27,6 +26,9 @@ import java.util.List;
 @ComponentScan(basePackages = {"com.mengyirunian"})
 @Configuration
 public class WebConfig extends WebMvcConfigurerAdapter {
+
+    @Autowired
+    private RequestLogInterceptor requestLogInterceptor;
 
     /**
      * Jsp View resolver
@@ -95,4 +97,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public void addResourceHandlers(final ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/resources/**/*").addResourceLocations("/WEB-INF/resources/");
     }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(requestLogInterceptor).addPathPatterns("/**");
+    }
+
 }

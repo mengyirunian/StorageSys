@@ -61,12 +61,14 @@ public class AfterBeanInitListener implements ApplicationListener<ContextRefresh
         packageResource(beans, runtimeResources);
         log.info("-->获取FuncParent的类结束");
         List<Resource> addResources = checkResources(resourcesExist, runtimeResources);
-        Map<String, List<Resource>> map = Maps.newHashMap();
-        map.put("list", addResources);
-        transactionTemplate.execute((TransactionCallback<Object>) status -> {
-            resourceExtMapper.batchSave(map);
-            return true;
-        });
+        if (!CollectionUtils.isEmpty(addResources)) {
+            Map<String, List<Resource>> map = Maps.newHashMap();
+            map.put("list", addResources);
+            transactionTemplate.execute((TransactionCallback<Object>) status -> {
+                resourceExtMapper.batchSave(map);
+                return true;
+            });
+        }
     }
 
     private List<Resource> checkResources(List<Resource> resourcesExist, List<Resource> runtimeResources) {
