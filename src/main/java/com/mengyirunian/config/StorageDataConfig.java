@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 import java.util.Properties;
@@ -58,14 +59,14 @@ public class StorageDataConfig {
         String mapperLocations = "classpath*:sqlMapper/storageSys/*Mapper.xml";
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         sessionFactory.setMapperLocations(resolver.getResources(mapperLocations));
-        sessionFactory.setPlugins(new Interceptor[] { pageHelper() });
+        sessionFactory.setPlugins(new Interceptor[]{pageHelper()});
         sessionFactory.setTypeHandlers(typeHandler());
         return sessionFactory.getObject();
     }
 
     @Bean
     public TypeHandler<?>[] typeHandler() {
-        return new TypeHandler[] { new DecimalTypeHandler() };
+        return new TypeHandler[]{new DecimalTypeHandler()};
     }
 
     @Bean
@@ -78,6 +79,20 @@ public class StorageDataConfig {
         p.setProperty("reasonable", "true");
         pageHelper.setProperties(p);
         return pageHelper;
+    }
+
+    @Bean(name = "transactionTemplateStorage")
+    public TransactionTemplate getTransactionTemplate() {
+        TransactionTemplate transactionTemplate = new TransactionTemplate();
+        transactionTemplate.setTimeout(30000);
+        transactionTemplate.setTransactionManager(getTransactionManager());
+
+        return transactionTemplate;
+    }
+
+    @Bean(name = "StorageTransactionManager")
+    public DataSourceTransactionManager getTransactionManager() {
+        return new DataSourceTransactionManager(dataSource());
     }
 
 }

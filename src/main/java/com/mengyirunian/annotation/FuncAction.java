@@ -14,6 +14,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface FuncAction {
 
     String parent();
+    String id();
     String name();
 
 }

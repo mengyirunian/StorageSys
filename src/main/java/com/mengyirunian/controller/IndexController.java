@@ -28,14 +28,14 @@ import java.util.Set;
 public class IndexController {
 
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    @FuncAction(parent = "indexController", name = "跳转index")
+    @FuncAction(parent = "indexController", id="index", name = "跳转index")
     public String index() {
         return "indez";
     }
 
     @ApiOperation("返回字符串")
     @RequestMapping(value = "/returnString", method = RequestMethod.GET)
-    @FuncAction(parent = "indexController", name = "返回字符串")
+    @FuncAction(parent = "indexController", id = "returnString", name = "返回字符串")
     public String returnString() {
         log.info("接收到此请求");
         return "returnString";
@@ -43,7 +43,7 @@ public class IndexController {
 
     @ApiOperation("获取全部的url")
     @RequestMapping(value = "/getAllUrl", method = RequestMethod.GET)
-    @FuncAction(parent = "indexController", name = "获取全部的url")
+    @FuncAction(parent = "indexController", id="getAllUrl", name = "获取全部的url")
     @ResponseBody
     public Set<String> getAllUrl(HttpServletRequest request) {
         Set<String> result = Sets.newHashSet();
@@ -56,6 +56,13 @@ public class IndexController {
             result.addAll(pSet);
         }
         return result;
+    }
+
+    @ApiOperation("测试添加权限功能")
+    @RequestMapping(value = "/addResource", method = RequestMethod.GET)
+    @FuncAction(parent = "indexController", id = "addResource", name = "测试添加权限功能")
+    public String addResource(){
+        return "addResource";
     }
 
 }
