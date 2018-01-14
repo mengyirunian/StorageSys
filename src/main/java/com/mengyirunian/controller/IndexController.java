@@ -3,13 +3,13 @@ package com.mengyirunian.controller;
 import com.google.common.collect.Sets;
 import com.mengyirunian.annotation.FuncAction;
 import com.mengyirunian.annotation.FuncParent;
+import com.mengyirunian.service.interfaces.RedisService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.DispatcherServlet;
@@ -27,8 +27,11 @@ import java.util.Set;
 @FuncParent(id = "indexController", name = "index说明")
 public class IndexController {
 
+    @Autowired
+    private RedisService redisService;
+
     @RequestMapping(value = "/index", method = RequestMethod.GET)
-    @FuncAction(parent = "indexController", id="index", name = "跳转index")
+    @FuncAction(parent = "indexController", id = "index", name = "跳转index")
     public String index() {
         return "indez";
     }
@@ -43,7 +46,7 @@ public class IndexController {
 
     @ApiOperation("获取全部的url")
     @RequestMapping(value = "/getAllUrl", method = RequestMethod.GET)
-    @FuncAction(parent = "indexController", id="getAllUrl", name = "获取全部的url")
+    @FuncAction(parent = "indexController", id = "getAllUrl", name = "获取全部的url")
     @ResponseBody
     public Set<String> getAllUrl(HttpServletRequest request) {
         Set<String> result = Sets.newHashSet();
@@ -61,8 +64,17 @@ public class IndexController {
     @ApiOperation("测试添加权限功能")
     @RequestMapping(value = "/addResource", method = RequestMethod.GET)
     @FuncAction(parent = "indexController", id = "addResource", name = "测试添加权限功能")
-    public String addResource(){
+    public String addResource() {
+        redisService.set("love", "I LOVE U");
+        log.info(redisService.get("love"));
         return "addResource";
+    }
+
+    @ApiOperation("获取redis内容")
+    @RequestMapping(value = "/getRedis", method = RequestMethod.GET)
+    @FuncAction(parent = "indexController", id = "getRedis", name = "获取redis内容")
+    public String getRedis(@RequestParam("redisKey") String redisKey) {
+        return StringUtils.isEmpty(redisKey) ? "无" : redisService.get(redisKey);
     }
 
 }

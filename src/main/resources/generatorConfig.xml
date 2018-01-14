@@ -63,12 +63,12 @@
         <!--<table schema="test" tableName="resource" domainObjectName="Resource">-->
             <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
         <!--</table>-->
-        <table schema="test" tableName="role" domainObjectName="Role">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
-        <table schema="test" tableName="role_resource" domainObjectName="RoleResource">
-            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
-        </table>
+        <!--<table schema="test" tableName="role" domainObjectName="Role">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
+        <!--<table schema="test" tableName="role_resource" domainObjectName="RoleResource">-->
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+        <!--</table>-->
 
     </context>
 

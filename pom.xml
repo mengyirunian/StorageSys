@@ -58,6 +58,10 @@
         <!-- swagger2版本号 -->
         <swagger2.version>2.4.0</swagger2.version>
 
+        <!-- redis版本号 -->
+        <redis.version>2.9.0</redis.version>
+        <spring.data.redis.version>1.8.3.RELEASE</spring.data.redis.version>
+
         <!-- lombok版本号 -->
         <lombok.version>1.16.10</lombok.version>
 
@@ -250,6 +254,7 @@
             <version>${logback.ext.spring}</version>
         </dependency>
 
+        <!-- swagger 相关的jar -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger2</artifactId>
@@ -259,6 +264,18 @@
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
             <version>${swagger2.version}</version>
+        </dependency>
+
+        <!-- redis 相关的jar -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>${redis.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>${spring.data.redis.version}</version>
         </dependency>
 
         <!-- lombok 相关的jar -->
@@ -297,8 +314,6 @@
                 <version>1.3.2</version>
                 <configuration>
                     <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
-                    <verbose>true</verbose>
-                    <overwrite>false</overwrite>
                 </configuration>
                 <executions>
                     <execution>
