@@ -65,6 +65,12 @@
         <!-- lombok版本号 -->
         <lombok.version>1.16.10</lombok.version>
 
+        <!-- thrift 版本号 -->
+        <thrift.version>0.10.0</thrift.version>
+
+        <!-- retrofit 版本号 -->
+        <retrofit.version>2.1.0</retrofit.version>
+
     </properties>
 
     <dependencies>
@@ -285,6 +291,19 @@
             <version>${lombok.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.thrift</groupId>
+            <artifactId>libthrift</artifactId>
+            <version>${thrift.version}</version>
+        </dependency>
+
+        <!-- retrofit 相关的jar -->
+        <dependency>
+            <groupId>com.squareup.retrofit2</groupId>
+            <artifactId>retrofit</artifactId>
+            <version>${retrofit.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -297,38 +316,22 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <version>9.4.0.v20161208</version>
-                <configuration>
-                    <scanIntervalSeconds>1</scanIntervalSeconds><!-- 多少秒进行一次热部署 -->
-                    <webApp>
-                        <contextPath>/StorageSys</contextPath>
-                    </webApp>
-                </configuration>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.eclipse.jetty</groupId>-->
+                <!--<artifactId>jetty-maven-plugin</artifactId>-->
+                <!--<version>9.4.8.v20171121</version>-->
+                <!--<configuration>-->
+                    <!--<scanIntervalSeconds>1</scanIntervalSeconds>&lt;!&ndash; 多少秒进行一次热部署 &ndash;&gt;-->
+                    <!--<webApp>-->
+                        <!--<contextPath>/base</contextPath>-->
+                    <!--</webApp>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
                 <artifactId>mybatis-generator-maven-plugin</artifactId>
                 <version>1.3.2</version>
-                <configuration>
-                    <configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>Generate MyBatis Artifacts</id>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <dependencies>
-                    <dependency>
-                        <groupId>org.mybatis.generator</groupId>
-                        <artifactId>mybatis-generator-core</artifactId>
-                        <version>1.3.2</version>
-                    </dependency>
                     <dependency>
                         <groupId>mysql</groupId>
                         <artifactId>mysql-connector-java</artifactId>
@@ -336,7 +339,8 @@
                     </dependency>
                 </dependencies>
             </plugin>
+
         </plugins>
-        <finalName>maven-springmvc</finalName>
+        <finalName>base</finalName>
     </build>
 </project>
