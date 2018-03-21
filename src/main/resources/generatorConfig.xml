@@ -60,9 +60,24 @@
         </javaClientGenerator>
 
         <!-- 指定数据库表 -->
-        <!--<table schema="test" tableName="resource" domainObjectName="Resource">-->
-            <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-        <!--</table>-->
+        <table schema="test" tableName="t_salary_user" domainObjectName="SalaryUser">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table schema="test" tableName="t_occupation_user" domainObjectName="OccupationUser">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table schema="test" tableName="t_marriage_user" domainObjectName="MarriageUser">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table schema="test" tableName="t_city_user" domainObjectName="CityUser">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table schema="test" tableName="t_child_user" domainObjectName="ChildUser">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
+        <table schema="test" tableName="t_access_user" domainObjectName="AccessUser">
+            <generatedKey column="id" sqlStatement="MySql" identity="true"/>
+        </table>
         <!--<table schema="test" tableName="role" domainObjectName="Role">-->
             <!--<generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
         <!--</table>-->

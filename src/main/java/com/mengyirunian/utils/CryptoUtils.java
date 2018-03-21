@@ -6,6 +6,7 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.*;
 import java.net.URL;
+import java.security.MessageDigest;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedInputStream;
 
@@ -15,6 +16,38 @@ import java.util.zip.CheckedInputStream;
 public class CryptoUtils {
 
     private static final String DEFAULT_CHARSET = "UTF-8";
+
+    private static final char[] HEXDIGITS = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+            'a', 'b', 'c', 'd', 'e', 'f'};
+
+    /**
+     * SHA1 加密算法
+     *
+     * @param str
+     * @return
+     */
+    public static String getSha1(String str) {
+        if (null == str || 0 == str.length()) {
+            return null;
+        }
+        try {
+            MessageDigest mdTemp = MessageDigest.getInstance("SHA1");
+            mdTemp.update(str.getBytes(DEFAULT_CHARSET));
+            byte[] md = mdTemp.digest();
+            int j = md.length;
+            char[] buf = new char[j * 2];
+            int k = 0;
+            for (int i = 0; i < j; i++) {
+                byte byte0 = md[i];
+                buf[k++] = HEXDIGITS[byte0 >>> 4 & 0xf];
+                buf[k++] = HEXDIGITS[byte0 & 0xf];
+            }
+            return new String(buf);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     /**
      * MD5加密
