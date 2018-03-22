@@ -7,9 +7,14 @@ import com.mengyirunian.annotation.FuncParent;
 import com.mengyirunian.config.RootConfig;
 import com.mengyirunian.entity.Resource;
 import com.mengyirunian.entity.ResourceCriteria;
+import com.mengyirunian.entity.WeixinInfo;
+import com.mengyirunian.entity.WeixinInfoCriteria;
 import com.mengyirunian.mapper.ResourceExtMapper;
 import com.mengyirunian.mapper.ResourceMapper;
+import com.mengyirunian.mapper.WeixinInfoMapper;
+import com.mengyirunian.weixin.WeixinTool;
 import lombok.extern.slf4j.Slf4j;
+import me.chanjar.weixin.mp.api.WxMpInMemoryConfigStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationListener;
@@ -41,6 +46,10 @@ public class AfterBeanInitListener implements ApplicationListener<ContextRefresh
     @Autowired
     @Qualifier("transactionTemplateStorage")
     private TransactionTemplate transactionTemplate;
+    @Autowired
+    private WeixinInfoMapper weixinInfoMapper;
+    @Autowired
+    private WeixinTool weixinTool;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
@@ -69,6 +78,26 @@ public class AfterBeanInitListener implements ApplicationListener<ContextRefresh
                 return true;
             });
         }
+
+        final WxMpInMemoryConfigStorage config = new WxMpInMemoryConfigStorage();
+        WeixinInfoCriteria weixinInfoCriteria = new WeixinInfoCriteria();
+        weixinInfoCriteria.createCriteria();
+        List<WeixinInfo> weixinInfos = weixinInfoMapper.selectByExample(weixinInfoCriteria);
+        for(WeixinInfo weixinInfo : weixinInfos) {
+            if("token".equals(weixinInfo.getKeyname())) {
+                config.setToken(weixinInfo.getValuename().trim());
+            }
+            if("appid".equals(weixinInfo.getKeyname())) {
+                config.setAppId(weixinInfo.getValuename().trim());
+            }
+            if("appsecret".equals(weixinInfo.getKeyname())) {
+                config.setSecret(weixinInfo.getValuename().trim());
+            }
+            if("aesKey".equals(weixinInfo.getKeyname())) {
+                config.setAesKey(weixinInfo.getValuename().trim());
+            }
+        }
+        weixinTool.setWxMpConfigStorage(config);
     }
 
     private List<Resource> checkResources(List<Resource> resourcesExist, List<Resource> runtimeResources) {
